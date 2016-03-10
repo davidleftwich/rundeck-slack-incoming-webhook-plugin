@@ -11,6 +11,12 @@
 <#else>
     <#assign state="Succeeded">
 </#if>
+<#if (executionData.succeededNodeListString)?has_content>
+    <#assign succeededNodeList=executionData.succeededNodeListString?split(',')>
+</#if>
+<#if (executionData.failedNodeListString)?has_content>
+    <#assign failedNodeList=executionData.failedNodeListString?split(',')>
+</#if>
 
 {
    "attachments":[
@@ -24,22 +30,30 @@
                "value":"${state}",
                "short":true
             }
-<#if (executionData.succeededNodeListString)?has_content>
-    ,{
-      "title": "Succeeded Nodes",
-      "value": "${executionData.succeededNodeListString}",
-      "short": true
-    }
+           ]}
+<#if (succeededNodeList)?has_content>
+  <#list succeededNodeList?chunk(100) as snodes>
+      ,{
+         "fields":[
+            {
+               "title": "Succeeded Nodes",
+               "value": "${snodes?join(", ")}",
+               "short": false
+            }
+       ]}
+  </#list>
 </#if>
-<#if (executionData.failedNodeListString)?has_content>
-    ,{
-      "title": "Failed Nodes",
-      "value": "${executionData.failedNodeListString}",
-      "short": true
-    }
+<#if (failedNodeList)?has_content>
+  <#list failedNodeList?chunk(100) as fnodes>
+      ,{
+         "fields":[
+            {
+               "title": "Failed Nodes",
+               "value": "${fnodes?join(", ")}",
+               "short": false
+            }
+       ]}
+  </#list>
 </#if>
 ]
       }
-   ]
-}
-
