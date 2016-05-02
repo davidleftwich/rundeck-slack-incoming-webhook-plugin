@@ -17,6 +17,9 @@
 <#if (executionData.failedNodeListString)?has_content>
     <#assign failedNodeList=executionData.failedNodeListString?split(',')>
 </#if>
+<#if (executionData.context.option.VersionSelect)?has_content>
+    <#assign version=executionData.context.option.VersionSelect>
+</#if>
 
 {
    "attachments":[
@@ -28,6 +31,11 @@
             {
                "title":"Status",
                "value":"${state}",
+               "short":true
+            },
+            {
+               "title":"Version",
+               "value":"${version}",
                "short":true
             }
            ]}
