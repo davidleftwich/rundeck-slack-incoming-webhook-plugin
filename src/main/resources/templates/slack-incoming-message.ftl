@@ -32,12 +32,14 @@
                "title":"Status",
                "value":"${state}",
                "short":true
-            },
-            {
+            }
+           <#if version??>
+            ,{
                "title":"Version",
                "value":"${version}",
                "short":true
             }
+           </#if>
            ]}
 <#if (succeededNodeList)?has_content>
   <#list succeededNodeList?chunk(100) as snodes>
